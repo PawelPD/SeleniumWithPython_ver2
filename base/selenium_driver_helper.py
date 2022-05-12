@@ -29,7 +29,7 @@ class SeleniumDriverHelper():
             self.log.info("Element not found with locator: " + locator + " and  locatorType: " + locatorType + "tekst do dodania" + err)
         return element
 
-    def get_elementList(self, locatorType="", locator=""):
+    def get_elementList(self, locatorType, locator):
         """
         Get list of elements
         """
@@ -41,7 +41,7 @@ class SeleniumDriverHelper():
             self.log.info("Element list not found with locator: " + locator + " and locatorType: " + locatorType)
         return element
 
-    def element_click(self, locatorType="", locator="", element=None):
+    def element_click(self, locatorType, locator, element=None):
         """
         Click on an element
         Either provide element or a combination of locator and locatorType
@@ -55,7 +55,7 @@ class SeleniumDriverHelper():
             self.log.info("Cannot click on the element with locator: " + locator + " locatorType: " + locatorType)
             print_stack()
 
-    def send_keys(self, data, locatorType="", locator="", element=None):
+    def send_keys(self, data, locatorType, locator, element=None):
         """
         Send keys to an element
         Either provide element or a combination of locator and locatorType
@@ -69,7 +69,7 @@ class SeleniumDriverHelper():
             self.log.info("Cannot send data on the element with locator: " + locator + " locatorType: " + locatorType)
             print_stack()
 
-    def clear_field(self, locatorType="", locator=""):
+    def clear_field(self, locatorType, locator):
         """
         Clear an element field
         """
@@ -77,7 +77,7 @@ class SeleniumDriverHelper():
         element.clear()
         self.log.info("Clear field with locator: " + locator + " locatorType: " + locatorType)
 
-    def get_text(self, locatorType="", locator="", element=None, info=""):
+    def get_text(self, locatorType, locator, element=None, info=""):
         """
         Get 'Text' on an element
         Either provide element or a combination of locator and locatorType
@@ -98,7 +98,7 @@ class SeleniumDriverHelper():
             text = None
         return text
 
-    def is_element_present(self, locatorType="", locator="", element=None):
+    def is_element_present(self, locatorType, locator, element=None):
         """
         Check if element is present
         Either provide element or a combination of locator and locatorType
@@ -136,7 +136,7 @@ class SeleniumDriverHelper():
             print("Element not found")
             return False
 
-    def element_presence_check(self, locatorType="", locator=""):
+    def element_presence_check(self, locatorType, locator):
         """
         Check if element is present
         """
@@ -152,7 +152,7 @@ class SeleniumDriverHelper():
             self.log.info("Element not found")
             return False
     #zmiana
-    def wait_for_element(self, locatorType="", locator="",
+    def wait_for_element(self, locatorType, locator,
                          timeout=5, pollFrequency=0.5, expectedCond):
         element = None
         try:
