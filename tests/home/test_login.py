@@ -5,12 +5,12 @@ import unittest
 import pytest
 
 
-@pytest.mark.usefixtures("oneTimeSetUp", "setUp")
+@pytest.mark.usefixtures("one_time_set_up", "set_up")
 class LoginTests(unittest.TestCase):
-    log = cl.customLogger(logging.DEBUG)
+    log = cl.custom_logger(logging.DEBUG)
 
     @pytest.fixture(autouse=True)
-    def objectSetup(self, oneTimeSetUp):
+    def objectSetup(self, one_time_set_up):
         self.lp = LoginPage(self.driver)
 
     @pytest.mark.run(order=1) #zbędne

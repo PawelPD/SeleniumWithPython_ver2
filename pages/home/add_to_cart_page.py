@@ -7,7 +7,7 @@ from pages.home.navigation_page import NavigationPage
 
 
 class AddToCartPage(SeleniumDriverHelper):
-    log = cl.customLogger(logging.DEBUG)
+    log = cl.custom_logger(logging.DEBUG)
 
     _product_list = (By.CSS_SELECTOR, "#js-product-list .products .product")
     _add_to_cart_button = (By.CSS_SELECTOR, ".add .add-to-cart")
@@ -22,7 +22,7 @@ class AddToCartPage(SeleniumDriverHelper):
 
     def get_product_list(self):
         # zmiana
-        products_list = self.get_elementList(*self._product_list)
+        products_list = self.get_element_list(*self._product_list)
         return products_list
 
     def select_random_product(self):

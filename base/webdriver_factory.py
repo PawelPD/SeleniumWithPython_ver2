@@ -18,8 +18,8 @@ class WebDriverFactory:
         self.browser = browser
 
     def get_web_driver_instance(self):
-        baseURL = "http://sklepdemo.polomski.ayz.pl/ecommerce/index.php"
-        # baseURL = "https://courses.letskodeit.com/"
+        base_url = "http://sklepdemo.polomski.ayz.pl/ecommerce/index.php"
+        # base_url = "https://courses.letskodeit.com/"
         if self.browser == "chrome":
             service = Service("..\\..\\configfiles\\chromedriver.exe")
             options = webdriver.ChromeOptions()
@@ -36,5 +36,5 @@ class WebDriverFactory:
             driver = webdriver.Firefox(service=service)
         driver.implicitly_wait(1)
         driver.maximize_window()
-        driver.get(baseURL)
+        driver.get(base_url)
         return driver

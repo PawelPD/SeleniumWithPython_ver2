@@ -6,7 +6,7 @@ import logging
 
 
 class LoginPage(SeleniumDriverHelper):
-    log = cl.customLogger(logging.DEBUG)
+    log = cl.custom_logger(logging.DEBUG)
 
     def __init__(self, driver):
         super().__init__(driver)

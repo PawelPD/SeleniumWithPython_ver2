@@ -9,12 +9,12 @@ import unittest
 import pytest
 
 
-@pytest.mark.usefixtures("oneTimeSetUp", "setUp")
+@pytest.mark.usefixtures("one_time_set_up", "set_up")
 class AddToCartTest(unittest.TestCase):
-    log = cl.customLogger(logging.DEBUG)
+    log = cl.custom_logger(logging.DEBUG)
 
     @pytest.fixture(autouse=True)
-    def objectSetup(self, oneTimeSetUp):
+    def objectSetup(self, one_time_set_up):
         self.atc = AddToCartPage(self.driver)
         self.lp = LoginPage(self.driver)
         self.nav = NavigationPage(self.driver)

@@ -16,7 +16,7 @@ import logging
 
 class Util(object):
 
-    log = cl.customLogger(logging.INFO)
+    log = cl.custom_logger(logging.INFO)
 
     def sleep(self, sec, info=""):
         """
@@ -51,11 +51,11 @@ class Util(object):
             case = string.ascii_letters
         return alpha_num.join(random.choice(case) for i in range(length))
 
-    def get_unique_name(self, charCount=10):
+    def get_unique_name(self, char_count=10):
         """
         Get a unique name
         """
-        return self.get_alpha_numeric(charCount, 'lower')
+        return self.get_alpha_numeric(char_count, 'lower')
 
     def get_unique_name_list(self, listSize=5, itemLength=None):
         """
@@ -66,10 +66,10 @@ class Util(object):
             itemLength: It should be a list containing number of items equal to the listSize
                         This determines the length of the each item in the list -> [1, 2, 3, 4, 5]
         """
-        nameList = []
+        name_list = []
         for i in range(0, listSize):
-            nameList.append(self.get_unique_name(itemLength[i]))
-        return nameList
+            name_list.append(self.get_unique_name(itemLength[i]))
+        return name_list
 
     def verify_text_contains(self, actual_text, expected_text, match_case = True):
         """
@@ -113,27 +113,27 @@ class Util(object):
             self.log.info("### VERIFICATION DOES NOT MATCHED !!!")
             return False
 
-    def verify_list_match(self, expectedList, actualList):
+    def verify_list_match(self, expected_list, actual_list):
         """
         Verify two list matches
 
         Parameters:
-            expectedList: Expected List
-            actualList: Actual List
+            expected_list: Expected List
+            actual_list: Actual List
         """
-        return set(expectedList) == set(actualList)
+        return set(expected_list) == set(actual_list)
 
-    def verify_list_contains(self, expectedList, actualList):
+    def verify_list_contains(self, expected_list, actual_list):
         """
         Verify actual list contains elements of expected list
 
         Parameters:
-            expectedList: Expected List
-            actualList: Actual List
+            expected_list: Expected List
+            actual_list: Actual List
         """
-        length = len(expectedList)
+        length = len(expected_list)
         for i in range(0, length):
-            if expectedList[i] not in actualList:
+            if expected_list[i] not in actual_list:
                 return False
         else:
             return True

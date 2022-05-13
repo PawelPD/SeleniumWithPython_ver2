@@ -11,7 +11,7 @@ from selenium.webdriver import ActionChains, Keys
 
 
 class SeleniumDriverHelper():
-    log = cl.customLogger(logging.DEBUG)
+    log = cl.custom_logger(logging.DEBUG)
 
     def __init__(self, driver):
         self.driver = driver
@@ -26,10 +26,11 @@ class SeleniumDriverHelper():
             element = self.driver.find_element(*locator)
             self.log.info("Element found with locator: " + locator[1] + " and  locatorType: " + locator[0])
         except NoSuchElementException as err:
-            self.log.info("Element not found with locator: " + locator[1] + " and  locatorType: " + locator[0] + "ErrorInfo" + err)
+            self.log.info("Element not found with locator: " + locator[1] + " and  locatorType: "
+                          + locator[0] + "ErrorInfo" + err)
         return element
 
-    def get_elementList(self, *locator):
+    def get_element_list(self, *locator):
         """
         Get list of elements
         """
@@ -55,7 +56,8 @@ class SeleniumDriverHelper():
             else:
                 self.log.info("Clicked on element: " + str(element))
         except StaleElementReferenceException as err:
-            self.log.info("Cannot click on the element with locator: " + locator[1] + " locatorType: " + locator[0] + "ErrorInfo" + err)
+            self.log.info("Cannot click on the element with locator: " + locator[1] + " locatorType: "
+                          + locator[0] + "ErrorInfo" + err)
 
     def send_keys(self, data, *locator, element=None):
         """
@@ -147,8 +149,8 @@ class SeleniumDriverHelper():
         Check if element is present
         """
         try:
-            elementList = self.driver.find_elements(*locator)
-            if len(elementList) > 0:
+            element_list = self.driver.find_elements(*locator)
+            if len(element_list) > 0:
                 self.log.info("Element present with locator: " + locator[1] + " locatorType: " + str(locator[0]))
                 return True
             else:
@@ -159,13 +161,13 @@ class SeleniumDriverHelper():
             return False
     #zmiana
 
-    def wait_for_element(self, *locator, element=None, timeout=5, pollFrequency=0.5):
+    def wait_for_element(self, *locator, element=None, timeout=5, poll_frequency=0.5):
         element = None
         try:
             if locator:
                 self.log.info("Waiting for maximum :: " + str(timeout) + " :: seconds for element to be clickable")
                 wait = WebDriverWait(self.driver, timeout=timeout,
-                                     poll_frequency=pollFrequency,
+                                     poll_frequency=poll_frequency,
                                      ignored_exceptions=[NoSuchElementException,
                                                          ElementNotVisibleException,
                                                          ElementNotSelectableException])
@@ -173,7 +175,7 @@ class SeleniumDriverHelper():
             if element is not None:
                 self.log.info("Waiting for maximum :: " + str(timeout) + " :: seconds for element to be clickable")
                 wait = WebDriverWait(self.driver, timeout=timeout,
-                                     poll_frequency=pollFrequency,
+                                     poll_frequency=poll_frequency,
                                      ignored_exceptions=[NoSuchElementException,
                                                          ElementNotVisibleException,
                                                          ElementNotSelectableException])
@@ -184,16 +186,16 @@ class SeleniumDriverHelper():
             self.log.info("Element not appeared on the web page")
         return element
 
-    def verify_page_title(self, titleToVerify):
+    def verify_page_title(self, title_to_verify):
         """
         Verify the page Title
 
         Parameters:
-            titleToVerify: Title on the page that needs to be verified
+            title_to_verify: Title on the page that needs to be verified
         """
         try:
-            actualTitle = self.get_title()
-            return self.util.verify_text_contains(actualTitle, titleToVerify, match_case=True)
+            actual_title = self.get_title()
+            return self.util.verify_text_contains(actual_title, title_to_verify, match_case=True)
         except:
             self.log.error("Failed to get page title")
             return False
@@ -209,24 +211,24 @@ class SeleniumDriverHelper():
             # Scroll Down
             self.driver.execute_script("window.scrollBy(0, 1000);")
 
-    def screen_shot(self, resultMessage):
+    def screen_shot(self, result_message):
         """
         Takes screenshot of the current open web page
         """
         dt_string = datetime.now()
         dt_string = dt_string.strftime("%d-%m-%Y_%H-%M-%S-%f")[:-3]
-        fileName = resultMessage + "_" + str(dt_string) + ".png"
-        screenshotDirectory = "../screenshots/"
-        relativeFileName = screenshotDirectory + fileName
-        currentDirectory = os.path.dirname(__file__)
-        destinationFile = os.path.join(currentDirectory, relativeFileName)
-        destinationDirectory = os.path.join(currentDirectory, screenshotDirectory)
+        file_name = result_message + "_" + str(dt_string) + ".png"
+        screenshot_directory = "../screenshots/"
+        relative_file_name = screenshot_directory + file_name
+        current_directory = os.path.dirname(__file__)
+        destination_file = os.path.join(current_directory, relative_file_name)
+        destination_directory = os.path.join(current_directory, screenshot_directory)
 
         try:
-            if not os.path.exists(destinationDirectory):
-                os.makedirs(destinationDirectory)
-            self.driver.save_screenshot(destinationFile)
-            self.log.info("Screenshot save to directory: " + destinationFile)
+            if not os.path.exists(destination_directory):
+                os.makedirs(destination_directory)
+            self.driver.save_screenshot(destination_file)
+            self.log.info("Screenshot save to directory: " + destination_file)
         except:
             self.log.error("### Exception Occurred when taking screenshot")
 

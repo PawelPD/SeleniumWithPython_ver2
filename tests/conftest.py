@@ -3,15 +3,15 @@ from base.webdriver_factory import WebDriverFactory
 
 
 @pytest.fixture()
-def setUp():
-    print("Running method level setUp")
+def set_up():
+    print("Running method level set_up")
     yield
     print("Running method level tearDown")
 
 
 @pytest.fixture(scope="class")
-def oneTimeSetUp(request, browser):
-    print("Running one time setUp")
+def one_time_set_up(request, browser):
+    print("Running one time set_up")
     wdf = WebDriverFactory(browser)
     driver = wdf.get_web_driver_instance()
 
@@ -24,7 +24,7 @@ def oneTimeSetUp(request, browser):
 
 def pytest_addoption(parser):
     parser.addoption("--browser")
-    parser.addoption("--osType", help="Type of operating system")
+    parser.addoption("--os_type", help="Type of operating system")
 
 
 @pytest.fixture(scope="session")
@@ -33,5 +33,5 @@ def browser(request):
 
 
 @pytest.fixture(scope="session")
-def osType(request):
-    return request.config.getoption("--osType")
+def os_type(request):
+    return request.config.getoption("--os_type")
