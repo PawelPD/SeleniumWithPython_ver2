@@ -20,71 +20,75 @@ class SeleniumDriverHelper():
     def get_title(self):
         return self.driver.title
 
-    def get_element(self, locatorType, locator):
+    def get_element(self, *locator):
         element = None
         try:
-            element = self.driver.find_element(locatorType, locator)
-            self.log.info("Element found with locator: " + locator + " and  locatorType: " + locatorType)
+            element = self.driver.find_element(*locator)
+            self.log.info("Element found with locator: " + locator[1] + " and  locatorType: " + locator[0])
         except NoSuchElementException as err:
-            self.log.info("Element not found with locator: " + locator + " and  locatorType: " + locatorType + "tekst do dodania" + err)
+            self.log.info("Element not found with locator: " + locator[1] + " and  locatorType: " + locator[0] + "ErrorInfo" + err)
         return element
 
-    def get_elementList(self, locatorType, locator):
+    def get_elementList(self, *locator):
         """
         Get list of elements
         """
         element = None
         try:
-            element = self.driver.find_elements(locatorType, locator)
-            self.log.info("Element list found with locator: " + locator + " and locatorType: " + locatorType)
+            element = self.driver.find_elements(*locator)
+            self.log.info("Element list found with locator: " + locator[1] + " and locatorType: " + locator[0])
         except:
-            self.log.info("Element list not found with locator: " + locator + " and locatorType: " + locatorType)
+            self.log.info("Element list not found with locator: " + locator[1] + " and locatorType: " + locator[0])
         return element
 
-    def element_click(self, locatorType, locator, element=None):
+    def element_click(self, *locator, element=None):
         """
         Click on an element
         Either provide element or a combination of locator and locatorType
         """
         try:
             if locator:  # This means if locator is not empty
-                element = self.get_element(locatorType, locator)
+                element = self.get_element(*locator)
             element.click()
-            self.log.info("Clicked on element with locator: " + locator + " locatorType: " + locatorType)
-        except E:
-            self.log.info("Cannot click on the element with locator: " + locator + " locatorType: " + locatorType)
-            print_stack()
+            if locator:
+                self.log.info("Clicked on element with locator: " + locator[1] + " locatorType: " + locator[0])
+            else:
+                self.log.info("Clicked on element: " + str(element))
+        except StaleElementReferenceException as err:
+            self.log.info("Cannot click on the element with locator: " + locator[1] + " locatorType: " + locator[0] + "ErrorInfo" + err)
 
-    def send_keys(self, data, locatorType, locator, element=None):
+    def send_keys(self, data, *locator, element=None):
         """
         Send keys to an element
         Either provide element or a combination of locator and locatorType
         """
         try:
             if locator:  # This means if locator is not empty
-                element = self.get_element(locatorType, locator)
+                element = self.get_element(*locator)
             element.send_keys(data)
-            self.log.info("Sent data on element with locator: " + locator + " locatorType: " + locatorType)
+            if locator:
+                self.log.info("Sent data on element with locator: " + locator[1] + " locatorType: " + locator[0])
+            else:
+                self.log.info("Sent data on element: " + str(element))
         except:
-            self.log.info("Cannot send data on the element with locator: " + locator + " locatorType: " + locatorType)
-            print_stack()
+            self.log.info("Cannot send data on the element with locator: " + locator[1] + " locatorType: " + locator[0])
 
-    def clear_field(self, locatorType, locator):
+    def clear_field(self, *locator):
         """
         Clear an element field
         """
-        element = self.get_element(locatorType, locator)
+        element = self.get_element(*locator)
         element.clear()
-        self.log.info("Clear field with locator: " + locator + " locatorType: " + locatorType)
+        self.log.info("Clear field with locator: " + locator[1] + " locatorType: " + locator[0])
 
-    def get_text(self, locatorType, locator, element=None, info=""):
+    def get_text(self, *locator, element=None, info=""):
         """
         Get 'Text' on an element
         Either provide element or a combination of locator and locatorType
         """
         try:
             if locator: # This means if locator is not empty
-                element = self.get_element(locatorType, locator)
+                element = self.get_element(*locator)
             text = element.text
             if len(text) == 0:
                 text = element.get_attribute("innerText")
@@ -94,38 +98,40 @@ class SeleniumDriverHelper():
                 text = text.strip()
         except:
             self.log.error("Failed to get text on element " + info)
-            print_stack()
             text = None
         return text
 
-    def is_element_present(self, locatorType, locator, element=None):
+    def is_element_present(self, *locator, element=None):
         """
         Check if element is present
         Either provide element or a combination of locator and locatorType
         """
         try:
             if locator:  # This means if locator is not empty
-                element = self.get_element(locatorType, locator)
+                element = self.get_element(*locator)
 
             if element is not None:
-                self.log.info("Element present with locator: " + locator + " locatorType: " + locatorType)
+                if locator:
+                    self.log.info("Element present with locator: " + locator[1] + " locatorType: " + locator[0])
+                else:
+                    self.log.info("Element present: " + str(element))
                 return True
             else:
-                self.log.info("Element not present with locator: " + locator + " locatorType: " + locatorType)
+                self.log.info("Element not present with locator: " + locator[1] + " locatorType: " + locator[0])
                 return False
         except:
             print("Element not found")
             return False
 
-    def is_element_displayed(self, *locatorType):
+    def is_element_displayed(self, *locator):
         """
         Check if element is displayed
         Either provide element or a combination of locator and locatorType
         """
         isDisplayed = False
         try:
-            if locatorType:  # This means if locator is not empty
-                element = self.get_element(locatorType, locator)
+            if locator[0]:  # This means if locator is not empty
+                element = self.get_element(*locator)
             if element is not None:
                 isDisplayed = element.is_displayed()
                 self.log.info("Element is displayed" )
@@ -136,37 +142,46 @@ class SeleniumDriverHelper():
             print("Element not found")
             return False
 
-    def element_presence_check(self, locatorType, locator):
+    def element_presence_check(self, *locator):
         """
         Check if element is present
         """
         try:
-            elementList = self.driver.find_elements(locatorType, locator)
+            elementList = self.driver.find_elements(*locator)
             if len(elementList) > 0:
-                self.log.info("Element present with locator: " + locator + " locatorType: " + str(locatorType))
+                self.log.info("Element present with locator: " + locator[1] + " locatorType: " + str(locator[0]))
                 return True
             else:
-                self.log.info("Element not present with locator: " + locator + " locatorType: " + str(locatorType))
+                self.log.info("Element not present with locator: " + locator[1] + " locatorType: " + str(locator[0]))
                 return False
         except:
             self.log.info("Element not found")
             return False
     #zmiana
-    def wait_for_element(self, locatorType, locator,
-                         timeout=5, pollFrequency=0.5, expectedCond):
+
+    def wait_for_element(self, *locator, element=None, timeout=5, pollFrequency=0.5):
         element = None
         try:
-            self.log.info("Waiting for maximum :: " + str(timeout) + " :: seconds for element to be clickable")
-            wait = WebDriverWait(self.driver, timeout=timeout,
-                                 poll_frequency=pollFrequency,
-                                 ignored_exceptions=[NoSuchElementException,
-                                                     ElementNotVisibleException,
-                                                     ElementNotSelectableException])
-            element = wait.until(EC.element_to_be_clickable((locatorType, locator)))
+            if locator:
+                self.log.info("Waiting for maximum :: " + str(timeout) + " :: seconds for element to be clickable")
+                wait = WebDriverWait(self.driver, timeout=timeout,
+                                     poll_frequency=pollFrequency,
+                                     ignored_exceptions=[NoSuchElementException,
+                                                         ElementNotVisibleException,
+                                                         ElementNotSelectableException])
+                element = wait.until(EC.element_to_be_clickable((locator[0], locator[1])))
+            if element is not None:
+                self.log.info("Waiting for maximum :: " + str(timeout) + " :: seconds for element to be clickable")
+                wait = WebDriverWait(self.driver, timeout=timeout,
+                                     poll_frequency=pollFrequency,
+                                     ignored_exceptions=[NoSuchElementException,
+                                                         ElementNotVisibleException,
+                                                         ElementNotSelectableException])
+                element = wait.until(EC.element_to_be_clickable((element)))
+
             self.log.info("Element appeared on the web page")
         except:
             self.log.info("Element not appeared on the web page")
-            print_stack()
         return element
 
     def verify_page_title(self, titleToVerify):
@@ -178,10 +193,9 @@ class SeleniumDriverHelper():
         """
         try:
             actualTitle = self.get_title()
-            return self.util.verify_text_contains(actualTitle, titleToVerify)
+            return self.util.verify_text_contains(actualTitle, titleToVerify, match_case=True)
         except:
             self.log.error("Failed to get page title")
-            print_stack()
             return False
 
     def web_scroll(self, direction="up"):
@@ -215,4 +229,4 @@ class SeleniumDriverHelper():
             self.log.info("Screenshot save to directory: " + destinationFile)
         except:
             self.log.error("### Exception Occurred when taking screenshot")
-            print_stack()
+

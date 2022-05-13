@@ -26,6 +26,7 @@ class AddToCartPage(SeleniumDriverHelper):
         return products_list
 
     def select_random_product(self):
+        # import wdb; wdb.set_trace()
         element = self.get_product_list()
         number_of_products = len(element)
         index = random.randint(0,number_of_products-1)

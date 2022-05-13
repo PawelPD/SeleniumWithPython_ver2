@@ -71,7 +71,7 @@ class Util(object):
             nameList.append(self.get_unique_name(itemLength[i]))
         return nameList
 
-    def verify_text_contains(self, actualText, expectedText):
+    def verify_text_contains(self, actual_text, expected_text, match_case = True):
         """
         Verify actual text contains expected text string
 
@@ -79,16 +79,19 @@ class Util(object):
             expectedList: Expected Text
             actualList: Actual Text
         """
-        self.log.info("Actual Text From Application Web UI --> :: " + actualText)
-        self.log.info("Expected Text From Application Web UI --> :: " + expectedText)
-        if expectedText.lower() in actualText.lower():
+        self.log.info("Actual Text From Application Web UI --> :: " + actual_text)
+        self.log.info("Expected Text From Application Web UI --> :: " + expected_text)
+        if not match_case:
+            expected_text = expected_text.lower()
+            actual_text = actual_text.lower()
+        if expected_text in actual_text:
             self.log.info("### VERIFICATION CONTAINS !!!")
             return True
         else:
             self.log.info("### VERIFICATION DOES NOT CONTAINS !!!")
             return False
 
-    def verify_text_match(self, actualText, expectedText):
+    def verify_text_match(self, actual_text, expected_text, match_case = True):
         """
         Verify text match
 
@@ -96,9 +99,14 @@ class Util(object):
             expectedList: Expected Text
             actualList: Actual Text
         """
-        self.log.info("Actual Text From Application Web UI --> :: " + actualText)
-        self.log.info("Expected Text From Application Web UI --> :: " + expectedText)
-        if actualText.lower() == expectedText.lower():
+        self.log.info("Actual Text From Application Web UI --> :: " + actual_text)
+        self.log.info("Expected Text From Application Web UI --> :: " + expected_text)
+
+        if not match_case:
+            expected_text = expected_text.lower()
+            actual_text = actual_text.lower()
+
+        if actual_text == expected_text:
             self.log.info("### VERIFICATION MATCHED !!!")
             return True
         else:
